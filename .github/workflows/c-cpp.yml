@@ -2,7 +2,7 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ "lab04" ]
+    branches: [ "Lab4Task4" ]
   pull_request:
     branches: [ "main" ]
 
@@ -17,16 +17,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Build program
       run: make
 
     - name: Run program
       run: make run
 
-    - name: Verify output
-      run: |
-        output=$(make run)
-        echo "$output"
-        echo "$output" | grep -q "55"
-        echo "$output" | grep -q "1.618034"
+    - name: Run unit tests
+      run: make test
