@@ -26,3 +26,17 @@ jobs:
 
     - name: Run unit tests
       run: make test
+    
+  semgrep:
+    name: Semgrep CE Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: python3 -m pip install semgrep
+
+      - name: Run Semgrep Community Edition
+        run: semgrep scan --config auto
