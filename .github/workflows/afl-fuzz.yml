@@ -7,6 +7,7 @@ on:
 jobs:
   fuzz:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - name: Checkout repository
@@ -16,3 +17,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y afl++ clang
+      - name: Compile dvcp with AFL++
+        run: |
+          cd Lab5
+          afl-clang-fast dvcp.c -o dvcp
+      - name: Prepare fuzzing input
+        run: |
+          mkdir -p Lab5/inputs
+          printf 'A' > Lab5/inputs/seed.img
+      - name: Run AFL++ for three minutes
+        working-directory: Lab5
+        env:
+          AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES: "1"
+          AFL_NO_AFFINITY: "1"
+        run: |
+          afl-fuzz -i inputs -o findings -m 256 -t 1000 -V 180 -- ./dvcp @@
