@@ -1,0 +1,25 @@
+- name: Install on local machine
+  hosts: local_machine
+  become: true
+
+  tasks:
+    - name: install asciinema
+      ansible.builtin.apt:
+        name: asciinema
+        state: present
+        update_cache: true
+
+    - name: Install Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+
+    - name: Enable Apache2 service
+      ansible.builtin.service:
+        name: apache2
+        enabled: true
+        state: started
+
+    - name: Debug message
+      ansible.builtin.debug:
+        msg: "Success: asciinema and Apache2 have been installed. Apache2 service has been enabled"
