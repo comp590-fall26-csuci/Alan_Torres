@@ -1,0 +1,24 @@
+namne: Task 3 compiling Lab3 code
+
+  on: [push]
+
+  job:
+    build:
+      runs-on: debian-lab
+
+      defaults:
+        run:
+          working-derectory: Lab3/590MakefileLab
+
+      steps:
+        - name: Checkout repository
+          uses: https://github.com/actions/checkout@v4
+
+        - name: Build program
+          run: make
+
+        - name: Run program
+          run: make run
+
+        - name: Run unit tests
+          run: make test
